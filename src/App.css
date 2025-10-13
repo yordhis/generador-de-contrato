@@ -1,6 +1,19 @@
 body {
   background: #fff;
-  font-family: 'Montserrat', Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+.logo-letra {
+  display: block;
+  margin: 0px auto 0 auto;
+  max-width: 180px;
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
 }
 
 .main-content {
@@ -8,36 +21,40 @@ body {
   flex-direction: row;
   background: #fff;
   align-items: flex-start;
+
   justify-content: center;
   min-height: 80vh;
   position: relative;
+  gap: 32px;
+  width: 100vw;
+  box-sizing: border-box;
 }
 
 .form-section {
   flex: 1 1 50%;
-  max-width: 480px;
+  max-width: 650px;
   min-width: 320px;
   box-sizing: border-box;
   background: #fff;
-  border-radius: 12px 0 0 12px;
-  box-shadow: none;
-  margin: 0;
-  padding: 2rem 0 0 0;
+  border-radius: 18px 0 0 18px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  margin: 0 0 0 48px;
+  padding: 2.5rem 2rem 2.5rem 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .pdf-section {
   flex: 1 1 50%;
-  max-width: 700px;
+  max-width: 650px;
   min-width: 320px;
   box-sizing: border-box;
   background: #fff;
-  border-radius: 0 12px 12px 0;
-  box-shadow: none;
-  margin: 0;
-  padding: 2rem 0 0 0;
+  border-radius: 0 18px 18px 0;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  margin: 0 48px 0 0;
+  padding: 2.5rem 2rem 2.5rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -45,50 +62,27 @@ body {
 }
 
 .App-header {
-  background: #222;
+  background: linear-gradient(90deg, #222 70%, #b2c800 100%);
   color: #fff;
-  min-height: 120px;
+  min-height: 70px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
-  font-size: 18px;
+  justify-content: center;
   position: relative;
-  border-bottom: 2px solid #b2c800;
+  border-bottom: 3px solid #b2c800;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
 .App-logo {
-  height: 60px;
-  margin-left: 30px;
-  margin-right: 30px;
-}
-
-.header-title {
-  flex: 1;
-  text-align: left;
-  font-size: 36px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.header-title span {
+  height: 108px;
+  margin-left: 20px;
+  margin-right: 20px;
   display: block;
-}
-.header-title .verde {
-  color: #b2c800;
-}
-.header-title .blanco {
-  color: #fff;
-}
-
-.divider {
-  width: 2px;
-  height: 80px;
-  background: #b2c800;
-  margin: 0 30px;
+  transition: height 0.3s, margin 0.3s;
 }
 
 label {
@@ -97,21 +91,22 @@ label {
   font-size: 17px;
   margin-bottom: 8px;
 }
+
 input[type="text"] {
   width: 100%;
-  padding: 1rem;
+  padding: 0.5rem;
   border-radius: 8px;
   border: 1px solid #e6eec7;
   background: #fcfdf6;
-  font-size: 16px;
+  font-size: 12px;
   margin-top: 6px;
-  margin-bottom: 6px;
+  margin-bottom: 6px; 
 }
 
 .firma-box {
   width: 100%;
   min-height: 100px;
-  border-radius: 8px;
+  border-radius: 12px;
   border: 1px solid #e6eec7;
   background: #fcfdf6;
   color: #d3d3d3;
@@ -120,9 +115,9 @@ input[type="text"] {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 6px;
-  margin-bottom: 6px;
-  gap: 8px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  gap: 10px;
 }
 
 .btn-clear {
@@ -161,12 +156,18 @@ input[type="text"] {
   font-weight: bold;
   font-size: 20px;
   border: none;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  border-radius: 10px;
+  padding: 1.2rem;
+  margin-top: 24px;
+  margin-bottom: 24px;
   cursor: pointer;
   width: 100%;
+  box-shadow: 0 2px 8px rgba(178, 200, 0, 0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.btn-generar:hover {
+  background: #a0b800;
+  box-shadow: 0 4px 16px rgba(178, 200, 0, 0.15);
 }
 
 .footer {
@@ -180,188 +181,16 @@ input[type="text"] {
   bottom: 0;
   width: 100%;
 }
-
-@media (max-width: 900px) {
-  .main-content {
-    flex-direction: column;
-    padding: 0;
-  }
-  .form-section, .pdf-section {
-    max-width: 100% !important;
-    padding: 1.2rem !important;
-    margin: 10px !important;
-    border-radius: 12px !important;
-    box-shadow: none !important;
-    order: unset;
-  }
-}
-
-@media (max-width: 600px) {
-  .main-content {
-    flex-direction: column;
-    padding: 0;
-  }
-  .form-section, .pdf-section {
-    max-width: 100% !important;
-    padding: 0.7rem !important;
-    margin: 6px !important;
-    border-radius: 10px !important;
-    box-shadow: none !important;
-  }
-}
-
-/* Layout principal para formulario y PDF */
-.main-content {
-  display: flex;
-  flex-direction: row;
-  background: #fff;
-  align-items: flex-start;
-  justify-content: center;
-  min-height: 80vh;
-  position: relative;
-}
-
-.form-section {
-  flex: 1 1 50%;
-  max-width: 480px;
-  min-width: 320px;
-  box-sizing: border-box;
-  background: #fff;
-  border-radius: 12px 0 0 12px;
-  box-shadow: none;
-  margin: 0;
-  padding: 2rem 0 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.pdf-section {
-  flex: 1 1 50%;
-  max-width: 700px;
-  min-width: 320px;
-  box-sizing: border-box;
-  background: #fff;
-  border-radius: 0 12px 12px 0;
-  box-shadow: none;
-  margin: 0;
-  padding: 2rem 0 0 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-
-.App-header {
-  background: #222;
-  color: #fff;
-  min-height: 120px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  font-size: 18px;
-  position: relative;
-  border-bottom: 2px solid #b2c800;
-}
-
-.App-logo {
-  height: 60px;
-  margin-left: 30px;
-  margin-right: 30px;
-}
-
-.header-title {
-  flex: 1;
-  text-align: left;
-  font-size: 36px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.header-title span {
-  display: block;
-}
-.header-title .verde {
-  color: #b2c800;
-}
-.header-title .blanco {
-  color: #fff;
-}
-
-.divider {
-  width: 2px;
-  height: 80px;
-  background: #b2c800;
-  margin: 0 30px;
-}
-
-label {
-  font-weight: bold;
-  color: #222;
-  font-size: 17px;
-  margin-bottom: 8px;
-}
-input[type="text"] {
-  width: 100%;
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid #e6eec7;
-  background: #fcfdf6;
-  font-size: 16px;
-  margin-top: 6px;
-  margin-bottom: 6px;
-}
-
-.firma-box {
-  width: 100%;
-  min-height: 100px;
-  border-radius: 8px;
-  border: 1px solid #e6eec7;
-  background: #fcfdf6;
-  color: #d3d3d3;
-  font-size: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 6px;
-  margin-bottom: 6px;
-  gap: 8px;
-}
-
-.btn-clear {
-  margin-top: 8px;
-  background: #e6eec7;
-  color: #b2c800;
-  border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.checkbox-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 10px;
-}
-.checkbox-row input[type="checkbox"] {
-  accent-color: #b2c800;
-  width: 20px;
-  height: 20px;
-}
-.checkbox-row span {
-  color: #b2c800;
-  font-weight: bold;
-  font-size: 15px;
-  cursor: pointer;
-  text-decoration: underline;
-}
+box-sizing: border-box;
+background: #fff;
+border-radius: 0 12px 12px 0;
+box-shadow: none;
+margin: 0;
+padding: 2rem 0 0 0;
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+justify-content: flex-start;
 
 .btn-generar {
   background: #b2c800;
@@ -389,12 +218,44 @@ input[type="text"] {
   width: 100%;
 }
 
+@media (max-width: 600px) {
+  .logo-letra {
+    max-width: 120px;
+    margin-top: 18px;
+    box-shadow: 0 1px 8px rgba(178, 200, 0, 0.1);
+    border-radius: 12px;
+  }
+  .App-header {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 60px;
+    border-bottom: 3px solid #b2c800;
+    background: #222;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    padding: 0;
+  }
+  .App-logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 60px;
+    max-width: 90vw;
+    transition: height 0.3s;
+  }
+  .header-title,
+  .divider {
+    display: none !important;
+  }
+}
+
 @media (max-width: 900px) {
   .main-content {
     flex-direction: column;
     padding: 0;
   }
-  .form-section, .pdf-section {
+  .form-section,
+  .pdf-section {
     max-width: 100% !important;
     padding: 1.2rem !important;
     margin: 10px !important;
@@ -409,7 +270,8 @@ input[type="text"] {
     flex-direction: column;
     padding: 0;
   }
-  .form-section, .pdf-section {
+  .form-section,
+  .pdf-section {
     max-width: 100% !important;
     padding: 0.7rem !important;
     margin: 6px !important;

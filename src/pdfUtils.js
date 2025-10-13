@@ -43,7 +43,7 @@ export async function generarContratoPDF({
   }
   if (firmaCadete) {
     const firmaImg = await pdfDoc.embedPng(firmaCadete);
-    page.drawImage(firmaImg, { x: 210, y: 330, width: 150, height: 55 }); // Firma cadete (más grande y abajo)
+    page.drawImage(firmaImg, { x: 210, y: 333, width: 150, height: 55 }); // Firma cadete (más grande y abajo)
   }
 
   // Retornar el PDF modificado

@@ -119,12 +119,11 @@ function App() {
     <div style={{ minHeight: "100vh", background: "#fff" }}>
       {/* Header */}
       <header className="App-header">
-        <img src="/assets/logo-gris.jpg" alt="logo" className="App-logo" />
+        <img src="/assets/logo-pantalla.png" alt="logo" className="App-logo" />
         <div className="header-title">
-          <span style={{ fontSize: 14, letterSpacing: 2 }}>TIENDA DE TECNOLOGÍA</span>
-          <span className="blanco">PANTALLA<span className="verde">VERDE</span></span>
+        <img src="/assets/logo-letras.png" alt="logo" className="logo-letra" />
+          
         </div>
-        <div className="divider"></div>
       </header>
 
       {/* Main content */}
@@ -259,7 +258,7 @@ function App() {
             <iframe
               src={pdfUrl}
               title="Contrato PDF Preview"
-              style={{ border: "1px solid #ccc", borderRadius: "8px", background: "#fff", width: "100%", height: "600px" }}
+              style={{ border: "1px solid #ccc", borderRadius: "8px", background: "#fff", width: "100%", height: "900px" }}
             />
           ) : (
             <div style={{ color: "#888", marginTop: 40 }}>
@@ -303,45 +302,6 @@ function App() {
     </div>
   );
 }
-
-const inputStyle = {
-  width: "100%",
-  padding: "1rem",
-  borderRadius: 8,
-  border: "1px solid #e6eec7",
-  background: "#fcfdf6",
-  fontSize: 16,
-  marginTop: 6,
-  marginBottom: 6,
-};
-
-const firmaBoxStyle = {
-  width: "100%",
-  minHeight: 100,
-  borderRadius: 8,
-  border: "1px solid #e6eec7",
-  background: "#fcfdf6",
-  color: "#d3d3d3",
-  fontSize: 16,
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  marginTop: 6,
-  marginBottom: 6,
-  gap: 8,
-};
-
-const btnClearStyle = {
-  marginTop: 8,
-  background: "#e6eec7",
-  color: "#b2c800",
-  border: "none",
-  borderRadius: 6,
-  padding: "0.5rem 1rem",
-  fontWeight: "bold",
-  cursor: "pointer",
-};
 
 // Padding global al body
 export default App;
