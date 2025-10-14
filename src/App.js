@@ -29,8 +29,15 @@ function App() {
     actualizarPDF();
   };
 
+  // Debounce para actualizar el PDF solo después de que el usuario deje de escribir
+  const debounceRef = useRef();
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      actualizarPDF();
+    }, 700); // 700ms debounce
   };
 
   // Función para generar y actualizar el PDF
@@ -65,7 +72,7 @@ function App() {
 
   // Generar PDF en tiempo real cada vez que cambian los datos o acepto
   React.useEffect(() => {
-    actualizarPDF();
+    //actualizarPDF();
     return () => {
       if (pdfUrl) URL.revokeObjectURL(pdfUrl);
     };
@@ -136,7 +143,7 @@ function App() {
               type="text"
               name="nombrePropietario"
               value={form.nombrePropietario}
-              onInput={handleChange}
+              onChange={handleChange}
               placeholder="INGRESE NOMBRES Y APELLIDOS"
             />
           </div>
@@ -146,7 +153,7 @@ function App() {
               type="text"
               name="cedulaPropietario"
               value={form.cedulaPropietario}
-              onInput={handleChange}
+              onChange={handleChange}
               placeholder="INGRESE NUMERO DE CEDULA"
             />
           </div>
@@ -156,7 +163,7 @@ function App() {
               type="text"
               name="numeroOrden"
               value={form.numeroOrden}
-              onInput={handleChange}
+              onChange={handleChange}
               placeholder="INGRESE NUMERO DE ORDEN"
             />
           </div>
@@ -166,7 +173,7 @@ function App() {
               type="text"
               name="empresaCadeteria"
               value={form.empresaCadeteria}
-              onInput={handleChange}
+              onChange={handleChange}
               placeholder="EJEM: PEDIDOS YA! U OTRAS..."
             />
           </div>
@@ -176,7 +183,7 @@ function App() {
               type="text"
               name="nombreCadete"
               value={form.nombreCadete}
-              onInput={handleChange}
+              onChange={handleChange}
               placeholder="INGRESE  NOMBRE COMPLETO DEL CADETE AUTORIZADO"
             />
           </div>
@@ -186,7 +193,7 @@ function App() {
               type="text"
               name="cedulaCadete"
               value={form.cedulaCadete}
-              onInput={handleChange}
+              onChange={handleChange}
               placeholder="INGRESE  CEDULA DEL CADETE AUTORIZADO"
             />
           </div>
