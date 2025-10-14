@@ -271,8 +271,6 @@ function App() {
       {/* Footer */}
       <footer className="footer">
         COPYRIGHT PANTALLA VERDE 2025
-        <br />
-        DESIGNER BY CYBER STAFF C.A
       </footer>
 
       {/* Modal de términos y condiciones */}
