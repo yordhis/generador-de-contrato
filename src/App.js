@@ -136,7 +136,7 @@ function App() {
               type="text"
               name="nombrePropietario"
               value={form.nombrePropietario}
-              onBlur={handleChange}
+              onInput={handleChange}
               placeholder="INGRESE NOMBRES Y APELLIDOS"
             />
           </div>
@@ -146,7 +146,7 @@ function App() {
               type="text"
               name="cedulaPropietario"
               value={form.cedulaPropietario}
-              onBlur={handleChange}
+              onInput={handleChange}
               placeholder="INGRESE NUMERO DE CEDULA"
             />
           </div>
@@ -156,7 +156,7 @@ function App() {
               type="text"
               name="numeroOrden"
               value={form.numeroOrden}
-              onBlur={handleChange}
+              onInput={handleChange}
               placeholder="INGRESE NUMERO DE ORDEN"
             />
           </div>
@@ -166,7 +166,7 @@ function App() {
               type="text"
               name="empresaCadeteria"
               value={form.empresaCadeteria}
-              onBlur={handleChange}
+              onInput={handleChange}
               placeholder="EJEM: PEDIDOS YA! U OTRAS..."
             />
           </div>
@@ -176,7 +176,7 @@ function App() {
               type="text"
               name="nombreCadete"
               value={form.nombreCadete}
-              onBlur={handleChange}
+              onInput={handleChange}
               placeholder="INGRESE  NOMBRE COMPLETO DEL CADETE AUTORIZADO"
             />
           </div>
@@ -186,7 +186,7 @@ function App() {
               type="text"
               name="cedulaCadete"
               value={form.cedulaCadete}
-              onBlur={handleChange}
+              onInput={handleChange}
               placeholder="INGRESE  CEDULA DEL CADETE AUTORIZADO"
             />
           </div>
