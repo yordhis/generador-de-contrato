@@ -313,7 +313,7 @@ function App() {
             </span>
           </div>
           <button type="submit" disabled={generando} className="btn-generar">
-            {generando ? "Generando..." : "GENERAR PANTALLA VERDE"}
+            {generando ? "Generando..." : "GENERAR AUTORIZACION"}
           </button>
         </form>
 
