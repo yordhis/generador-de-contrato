@@ -15,6 +15,13 @@ body {
   height: auto;
   border-radius: 18px;
 }
+.error-message {
+  color: rgba(170, 0, 0, 0.732);
+  font-size: 12px;
+  border-radius: 8px;
+  width: 100%;
+  margin-top: 0.1rem;
+}
 
 .main-content {
   display: flex;

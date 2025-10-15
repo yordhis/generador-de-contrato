@@ -19,6 +19,16 @@ function App() {
   const [termsHtml, setTermsHtml] = useState("");
   const [showTerms, setShowTerms] = useState(false);
 
+  // constantes para los nombres de los campos del formulario
+  const CAMPOS_NAMES = {
+    nombrePropietario: "Nombres y Apellidos del Propietario",
+    cedulaPropietario: "Cédula o R.U.T del Titular",
+    numeroOrden: "Número de Orden",
+    empresaCadeteria: "Empresa de Cadetería",
+    nombreCadete: "Nombre del Autorizado quien Retira",
+    cedulaCadete: "Cédula o R.U.T del Autorizado a Retirar",
+  };
+
   const limpiarFirmaPropietario = () => {
     firmaPropietarioRef.current.clear();
     actualizarPDF();
@@ -29,18 +39,34 @@ function App() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((form) => ({ ...form, [name]: value }));
+
+    // borra mensajes de error si el usuario empieza a escribir
+    const existingError = document
+      .querySelector(`[name="${name}"]`)
+      .parentNode.querySelector(".error-message");
+    if (existingError) {
+      existingError.remove();
+    }
   };
 
   // Función para generar y actualizar el PDF
   const actualizarPDF = React.useCallback(async () => {
     try {
+      // borrar el mensaje de error cuando el usuario firma
+      const existingError = document
+        .querySelector(`.firma-error-message`)
+        .querySelector(".error-message");
+      if (existingError) {
+        existingError.remove();
+      }
+
       const response = await fetch("/assets/PANTALLA-VERDE.pdf");
       const basePdfBytes = await response.arrayBuffer();
       const firmaPropietario =
         firmaPropietarioRef.current && !firmaPropietarioRef.current.isEmpty()
           ? firmaPropietarioRef.current.getCanvas().toDataURL("image/png")
           : null;
-    
+
       const pdfBytes = await generarContratoPDF({
         basePdfBytes,
         datos: form,
@@ -70,6 +96,58 @@ function App() {
       alert("Debes aceptar los términos y condiciones");
       return;
     }
+
+    let flagEmptyField = false;
+    // Validar campos obligatorios
+    // recorrer los campos del form y verificar que no estén vacíos
+    for (const key in form) {
+      if (form[key].trim() === "" && key !== "empresaCadeteria") {
+        // marcar en rojo el campo vacío
+        // agrega mensaje de error html
+        const errorMessage = document.createElement("div");
+        errorMessage.className = "error-message";
+        errorMessage.innerText =
+          "Este campo es obligatorio: " + CAMPOS_NAMES[key];
+
+        // verificar si ya existe un mensaje de error para este campo
+        // si ya existe, no agregar otro
+        const existingError = document
+          .querySelector(`[name="${key}"]`)
+          .parentNode.querySelector(".error-message");
+        if (existingError) continue;
+
+        document
+          .querySelector(`[name="${key}"]`)
+          .parentNode.appendChild(errorMessage);
+
+        flagEmptyField = true;
+      }
+    }
+
+    // validar que la firma no esté vacía
+    if (firmaPropietarioRef.current.isEmpty()) {
+      const errorMessage = document.createElement("div");
+      errorMessage.className = "error-message";
+      errorMessage.innerText = "La firma del propietario es obligatoria.";
+
+      // verificar si ya existe un mensaje de error para este campo
+      // si ya existe, no agregar otro
+      const existingError = document
+        .querySelector(`.firma-error-message`)
+        .querySelector(".error-message");
+      if (!existingError) {
+        document
+          .querySelector(`[class="firma-error-message"]`)
+          .appendChild(errorMessage);
+      }
+      flagEmptyField = true;
+    }
+
+    if (flagEmptyField) return;
+
+    // eliminar mensajes de error previos
+    document.querySelectorAll(".error-message").forEach((el) => el.remove());
+
     setGenerando(true);
     try {
       // Cargar el PDF base
@@ -79,7 +157,7 @@ function App() {
       const firmaPropietario = firmaPropietarioRef.current.isEmpty()
         ? null
         : firmaPropietarioRef.current.getCanvas().toDataURL("image/png");
- 
+
       // Generar PDF
       const pdfBytes = await generarContratoPDF({
         basePdfBytes,
@@ -91,7 +169,7 @@ function App() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "contrato_firmado.pdf";
+      a.download = "contrato_firmado_pantalla_verde.pdf";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -137,7 +215,7 @@ function App() {
               name="cedulaPropietario"
               value={form.cedulaPropietario}
               onChange={handleChange}
-              placeholder="INGRESE NUMERO DE CEDULA"
+              placeholder="Ingrese Cédula o R.U.T del Titular"
             />
           </div>
           <div>
@@ -177,7 +255,7 @@ function App() {
               name="empresaCadeteria"
               value={form.empresaCadeteria}
               onChange={handleChange}
-              placeholder="EJEM: PEDIDOS YA! U OTRAS..."
+              placeholder="Ejemplo: RAPI-PAGO, PANTALLA VERDE, OTRO"
             />
           </div>
           <div>
@@ -203,6 +281,7 @@ function App() {
               >
                 Limpiar
               </button>
+              <div className="firma-error-message"></div>
             </div>
           </div>
 
