@@ -209,7 +209,7 @@ function App() {
             />
           </div>
           <div>
-            <label>Cédula o R.U.T del Titular</label>
+            <label>Cédula o R.U.T del Propietario</label>
             <input
               type="text"
               name="cedulaPropietario"
@@ -219,13 +219,13 @@ function App() {
             />
           </div>
           <div>
-            <label>Número de Orden</label>
+            <label>E-Factura o número de orden</label>
             <input
               type="text"
               name="numeroOrden"
               value={form.numeroOrden}
               onChange={handleChange}
-              placeholder="Ingrese Número de Orden"
+              placeholder="Ingrese E-Factura o Número de Orden"
             />
           </div>
           <div>
@@ -255,7 +255,7 @@ function App() {
               name="empresaCadeteria"
               value={form.empresaCadeteria}
               onChange={handleChange}
-              placeholder="Ejemplo: RAPI-PAGO, PANTALLA VERDE, OTRO"
+              placeholder="Ejemplo: Pedidos Ya y Uber."
             />
           </div>
           <div>
