@@ -53,7 +53,7 @@ function App() {
     } catch (err) {
       setPdfUrl(null);
     }
-  }, [acepto]);
+  }, [form]);
 
   // Generar PDF en tiempo real cada vez que cambian los datos o acepto
   React.useEffect(() => {
