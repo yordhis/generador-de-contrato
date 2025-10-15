@@ -5,7 +5,6 @@ import { generarContratoPDF } from "./pdfUtils";
 
 function App() {
   const firmaPropietarioRef = useRef();
-  const firmaCadeteRef = useRef();
   const [form, setForm] = useState({
     nombrePropietario: "",
     cedulaPropietario: "",
@@ -24,42 +23,28 @@ function App() {
     firmaPropietarioRef.current.clear();
     actualizarPDF();
   };
-  const limpiarFirmaCadete = () => {
-    firmaCadeteRef.current.clear();
-    actualizarPDF();
-  };
 
   // Debounce para actualizar el PDF solo después de que el usuario deje de escribir
-  const debounceRef = useRef();
+  // const debounceRef = useRef();
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => {
-      actualizarPDF();
-    }, 700); // 700ms debounce
+    setForm((form) => ({ ...form, [name]: value }));
   };
 
   // Función para generar y actualizar el PDF
   const actualizarPDF = React.useCallback(async () => {
     try {
-      const response = await fetch(
-        "/assets/PANTALLA-VERDE.pdf"
-      );
+      const response = await fetch("/assets/PANTALLA-VERDE.pdf");
       const basePdfBytes = await response.arrayBuffer();
       const firmaPropietario =
         firmaPropietarioRef.current && !firmaPropietarioRef.current.isEmpty()
           ? firmaPropietarioRef.current.getCanvas().toDataURL("image/png")
           : null;
-      const firmaCadete =
-        firmaCadeteRef.current && !firmaCadeteRef.current.isEmpty()
-          ? firmaCadeteRef.current.getCanvas().toDataURL("image/png")
-          : null;
+    
       const pdfBytes = await generarContratoPDF({
         basePdfBytes,
         datos: form,
         firmaPropietario,
-        firmaCadete,
       });
       const blob = new Blob([pdfBytes], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
@@ -68,16 +53,16 @@ function App() {
     } catch (err) {
       setPdfUrl(null);
     }
-  }, [form]);
+  }, [acepto]);
 
   // Generar PDF en tiempo real cada vez que cambian los datos o acepto
   React.useEffect(() => {
-    //actualizarPDF();
+    actualizarPDF();
     return () => {
       if (pdfUrl) URL.revokeObjectURL(pdfUrl);
     };
     // eslint-disable-next-line
-  }, [form, acepto]);
+  }, [acepto]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -88,23 +73,18 @@ function App() {
     setGenerando(true);
     try {
       // Cargar el PDF base
-      const response = await fetch(
-        "/assets/PANTALLA-VERDE.pdf"
-      );
+      const response = await fetch("/assets/PANTALLA-VERDE.pdf");
       const basePdfBytes = await response.arrayBuffer();
       // Obtener firmas como PNG
       const firmaPropietario = firmaPropietarioRef.current.isEmpty()
         ? null
         : firmaPropietarioRef.current.getCanvas().toDataURL("image/png");
-      const firmaCadete = firmaCadeteRef.current.isEmpty()
-        ? null
-        : firmaCadeteRef.current.getCanvas().toDataURL("image/png");
+ 
       // Generar PDF
       const pdfBytes = await generarContratoPDF({
         basePdfBytes,
         datos: form,
         firmaPropietario,
-        firmaCadete,
       });
       // Descargar PDF
       const blob = new Blob([pdfBytes], { type: "application/pdf" });
@@ -128,8 +108,11 @@ function App() {
       <header className="App-header">
         <img src="/assets/logo-pantalla.png" alt="logo" className="App-logo" />
         <div className="header-title">
-        <img src="/assets/logo-letras.png" alt="logo" className="logo-letra" />
-          
+          <img
+            src="/assets/logo-letras.png"
+            alt="logo"
+            className="logo-letra"
+          />
         </div>
       </header>
 
@@ -138,17 +121,17 @@ function App() {
         {/* Formulario */}
         <form className="form-section" onSubmit={handleSubmit}>
           <div>
-            <label>NOMBRES Y APELLIDOS DEL PROPIETARIO</label>
+            <label>Nombres y Apellidos del Propietario</label>
             <input
               type="text"
               name="nombrePropietario"
               value={form.nombrePropietario}
               onChange={handleChange}
-              placeholder="INGRESE NOMBRES Y APELLIDOS"
+              placeholder="Ingrese Nombres y Apellidos"
             />
           </div>
           <div>
-            <label>CEDULA DEL PROPIETARIO</label>
+            <label>Cédula o R.U.T del Titular</label>
             <input
               type="text"
               name="cedulaPropietario"
@@ -158,17 +141,37 @@ function App() {
             />
           </div>
           <div>
-            <label>NUMERO DE ORDEN</label>
+            <label>Número de Orden</label>
             <input
               type="text"
               name="numeroOrden"
               value={form.numeroOrden}
               onChange={handleChange}
-              placeholder="INGRESE NUMERO DE ORDEN"
+              placeholder="Ingrese Número de Orden"
             />
           </div>
           <div>
-            <label>EMPRESA DE CADETERIA</label>
+            <label>Nombre del Autorizado quien Retira</label>
+            <input
+              type="text"
+              name="nombreCadete"
+              value={form.nombreCadete}
+              onChange={handleChange}
+              placeholder="Ingrese nombre de autorizado quien retira"
+            />
+          </div>
+          <div>
+            <label>Cédula o R.U.T del Autorizado a Retirar</label>
+            <input
+              type="text"
+              name="cedulaCadete"
+              value={form.cedulaCadete}
+              onChange={handleChange}
+              placeholder="Ingrese Cédula o R.U.T del Autorizado"
+            />
+          </div>
+          <div>
+            <label>Empresa de Cadetería</label>
             <input
               type="text"
               name="empresaCadeteria"
@@ -178,27 +181,7 @@ function App() {
             />
           </div>
           <div>
-            <label>NOMBRE COMPLETO DEL CADETE</label>
-            <input
-              type="text"
-              name="nombreCadete"
-              value={form.nombreCadete}
-              onChange={handleChange}
-              placeholder="INGRESE  NOMBRE COMPLETO DEL CADETE AUTORIZADO"
-            />
-          </div>
-          <div>
-            <label>CEDULA DEL CADETE:</label>
-            <input
-              type="text"
-              name="cedulaCadete"
-              value={form.cedulaCadete}
-              onChange={handleChange}
-              placeholder="INGRESE  CEDULA DEL CADETE AUTORIZADO"
-            />
-          </div>
-          <div>
-            <label>FIRMA DEL PROPIETARIO</label>
+            <label>Firma del Propietario</label>
             <div className="firma-box">
               <SignaturePad
                 ref={firmaPropietarioRef}
@@ -206,31 +189,23 @@ function App() {
                 canvasProps={{
                   width: 400,
                   height: 100,
-                  style: { borderRadius: 8, border: "none", background: "#fcfdf6" },
+                  style: {
+                    borderRadius: 8,
+                    border: "none",
+                    background: "#fcfdf6",
+                  },
                 }}
               />
-              <button type="button" className="btn-clear" onClick={limpiarFirmaPropietario}>
+              <button
+                type="button"
+                className="btn-clear"
+                onClick={limpiarFirmaPropietario}
+              >
                 Limpiar
               </button>
             </div>
           </div>
-          <div>
-            <label>FIRMA DEL AUTORIZADO / CADETE</label>
-            <div className="firma-box">
-              <SignaturePad
-                ref={firmaCadeteRef}
-                onEnd={actualizarPDF}
-                canvasProps={{
-                  width: 400,
-                  height: 100,
-                  style: { borderRadius: 8, border: "none", background: "#fcfdf6" },
-                }}
-              />
-              <button type="button" className="btn-clear" onClick={limpiarFirmaCadete}>
-                Limpiar
-              </button>
-            </div>
-          </div>
+
           <div className="checkbox-row">
             <input
               type="checkbox"
@@ -241,12 +216,16 @@ function App() {
             <span
               onClick={async () => {
                 try {
-                  const response = await fetch("/assets/terminos-condiciones.docx");
+                  const response = await fetch(
+                    "/assets/terminos-condiciones.docx"
+                  );
                   const arrayBuffer = await response.arrayBuffer();
                   const result = await mammoth.convertToHtml({ arrayBuffer });
                   setTermsHtml(result.value);
                 } catch (err) {
-                  setTermsHtml("No se pudo cargar el archivo de términos y condiciones.");
+                  setTermsHtml(
+                    "No se pudo cargar el archivo de términos y condiciones."
+                  );
                 }
                 setShowTerms(true);
               }}
@@ -265,7 +244,13 @@ function App() {
             <iframe
               src={pdfUrl}
               title="Contrato PDF Preview"
-              style={{ border: "1px solid #ccc", borderRadius: "8px", background: "#fff", width: "100%", height: "900px" }}
+              style={{
+                border: "1px solid #ccc",
+                borderRadius: "8px",
+                background: "#fff",
+                width: "100%",
+                height: "900px",
+              }}
             />
           ) : (
             <div style={{ color: "#888", marginTop: 40 }}>
@@ -276,31 +261,59 @@ function App() {
       </div>
 
       {/* Footer */}
-      <footer className="footer">
-        COPYRIGHT PANTALLA VERDE 2025
-      </footer>
+      <footer className="footer">COPYRIGHT PANTALLA VERDE 2025</footer>
 
       {/* Modal de términos y condiciones */}
       {showTerms && (
-        <div style={{
-          position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
-          background: 'rgba(0,0,0,0.4)', zIndex: 9999, display: 'flex',
-          alignItems: 'center', justifyContent: 'center'
-        }}>
-          <div style={{
-            background: '#fff', padding: '2rem', borderRadius: 12, maxWidth: 600,
-            boxShadow: '0 2px 16px rgba(0,0,0,0.2)'
-          }}>
-            <h2 style={{ color: '#b2c800' }}>Términos y Condiciones</h2>
-            <div style={{
-              maxHeight: 400, overflowY: 'auto', marginBottom: 20,
-              color: '#222', fontSize: 15
-            }} dangerouslySetInnerHTML={{ __html: termsHtml }} />
-            <button style={{
-              background: '#b2c800', color: '#fff', fontWeight: 'bold',
-              border: 'none', borderRadius: 8, padding: '0.7rem 1.5rem',
-              fontSize: 16, cursor: 'pointer'
-            }} onClick={() => setShowTerms(false)}>Cerrar</button>
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.4)",
+            zIndex: 9999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              padding: "2rem",
+              borderRadius: 12,
+              maxWidth: 600,
+              boxShadow: "0 2px 16px rgba(0,0,0,0.2)",
+            }}
+          >
+            <h2 style={{ color: "#b2c800" }}>Términos y Condiciones</h2>
+            <div
+              style={{
+                maxHeight: 400,
+                overflowY: "auto",
+                marginBottom: 20,
+                color: "#222",
+                fontSize: 15,
+              }}
+              dangerouslySetInnerHTML={{ __html: termsHtml }}
+            />
+            <button
+              style={{
+                background: "#b2c800",
+                color: "#fff",
+                fontWeight: "bold",
+                border: "none",
+                borderRadius: 8,
+                padding: "0.7rem 1.5rem",
+                fontSize: 16,
+                cursor: "pointer",
+              }}
+              onClick={() => setShowTerms(false)}
+            >
+              Cerrar
+            </button>
           </div>
         </div>
       )}

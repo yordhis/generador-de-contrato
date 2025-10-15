@@ -4,7 +4,6 @@ export async function generarContratoPDF({
   basePdfBytes,
   datos,
   firmaPropietario,
-  firmaCadete
 }) {
   // Cargar el PDF base
   const pdfDoc = await PDFDocument.load(basePdfBytes);
@@ -40,10 +39,6 @@ export async function generarContratoPDF({
   if (firmaPropietario) {
     const firmaImg = await pdfDoc.embedPng(firmaPropietario);
     page.drawImage(firmaImg, { x: 180, y: 450, width: 150, height: 55 }); // Firma propietario (más grande y abajo)
-  }
-  if (firmaCadete) {
-    const firmaImg = await pdfDoc.embedPng(firmaCadete);
-    page.drawImage(firmaImg, { x: 210, y: 333, width: 150, height: 55 }); // Firma cadete (más grande y abajo)
   }
 
   // Retornar el PDF modificado
